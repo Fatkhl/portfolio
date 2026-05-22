@@ -260,6 +260,138 @@
 
 
 
+
+
+  // ═══ BINARY RAIN ═══
+  function initBinaryRain() {
+    const container = document.getElementById('binary-rain');
+    if (!container) return;
+
+    function createCol() {
+      const col = document.createElement('div');
+      col.className = 'binary-col';
+      let bits = '';
+      for (let i = 0; i < 80; i++) {
+        bits += Math.random() > 0.5 ? '1' : '0';
+        if (i % 8 === 7) bits += ' ';
+      }
+      col.textContent = bits;
+      col.style.left = Math.random() * 200 + 'px';
+      col.style.animationDuration = (8 + Math.random() * 12) + 's';
+      col.style.animationDelay = Math.random() * 5 + 's';
+      container.appendChild(col);
+      col.addEventListener('animationend', () => col.remove());
+    }
+
+    // Initial burst
+    for (let i = 0; i < 8; i++) setTimeout(createCol, i * 300);
+    setInterval(createCol, 1500);
+  }
+
+  // ═══ HEX STREAM ═══
+  function initHexStream() {
+    const container = document.getElementById('hex-stream');
+    if (!container) return;
+
+    function createHexCol() {
+      const col = document.createElement('div');
+      col.className = 'hex-col';
+      let hexes = '';
+      for (let i = 0; i < 40; i++) {
+        hexes += '0x' + Math.floor(Math.random() * 65535).toString(16).toUpperCase().padStart(4, '0');
+        if (i % 4 === 3) hexes += '\n';
+      }
+      col.textContent = hexes;
+      col.style.right = Math.random() * 220 + 'px';
+      col.style.animationDuration = (10 + Math.random() * 15) + 's';
+      col.style.animationDelay = Math.random() * 5 + 's';
+      container.appendChild(col);
+      col.addEventListener('animationend', () => col.remove());
+    }
+
+    for (let i = 0; i < 6; i++) setTimeout(createHexCol, i * 400);
+    setInterval(createHexCol, 2000);
+  }
+
+  // ═══ FLOATING DATA PARTICLES ═══
+  function initDataParticles() {
+    const dataTypes = [
+      () => '0x' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
+      () => Math.floor(Math.random() * 256) + '.' + Math.floor(Math.random() * 256) + '.' + Math.floor(Math.random() * 256) + '.' + Math.floor(Math.random() * 256),
+      () => (Math.random() * 100).toFixed(2) + '%',
+      () => '$' + (Math.random() * 50000).toFixed(2),
+      () => 'B:' + Math.floor(Math.random() * 999999),
+      () => 'TX:' + Math.floor(Math.random() * 99999).toString(16).toUpperCase(),
+      () => 'GAS:' + Math.floor(Math.random() * 300),
+      () => 'ETH:' + (Math.random() * 10).toFixed(4),
+      () => Math.random().toString(2).substr(2, 8),
+      () => 'BLOCK:' + (19000000 + Math.floor(Math.random() * 500000)),
+    ];
+
+    function createParticle() {
+      const p = document.createElement('div');
+      p.className = 'data-particle';
+      p.textContent = dataTypes[Math.floor(Math.random() * dataTypes.length)]();
+      p.style.left = (10 + Math.random() * 80) + 'vw';
+      p.style.fontSize = (8 + Math.random() * 4) + 'px';
+      p.style.animationDuration = (8 + Math.random() * 12) + 's';
+      p.style.animationDelay = Math.random() * 3 + 's';
+      document.body.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    }
+
+    // Initial burst
+    for (let i = 0; i < 15; i++) setTimeout(createParticle, i * 200);
+    setInterval(createParticle, 800);
+  }
+
+  // ═══ CORNER DATA READOUTS ═══
+  function initCornerData() {
+    const tl = document.getElementById('cornerTL');
+    const br = document.getElementById('cornerBR');
+    if (!tl || !br) return;
+
+    function randomHex(len) {
+      let h = '';
+      for (let i = 0; i < len; i++) h += Math.floor(Math.random() * 16).toString(16);
+      return h;
+    }
+
+    function updateTL() {
+      const now = new Date();
+      const time = now.toTimeString().split(' ')[0];
+      const uptime = Math.floor((Date.now() % 86400000) / 1000);
+      const h = Math.floor(uptime / 3600);
+      const m = Math.floor((uptime % 3600) / 60);
+      const s = uptime % 60;
+      tl.innerHTML =
+        'SYS ' + time + ' <span class="blink">_</span><br>' +
+        'UPTIME ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + '<br>' +
+        'NODE 0x' + randomHex(8) + '<br>' +
+        'HASH 0x' + randomHex(16).substr(0,12) + '...<br>' +
+        'NET <span style="color:var(--green)">CONNECTED</span>';
+    }
+
+    function updateBR() {
+      const blocks = 19000000 + Math.floor(Math.random() * 500000);
+      const gas = Math.floor(15 + Math.random() * 50);
+      const peers = Math.floor(20 + Math.random() * 80);
+      const mem = (40 + Math.random() * 40).toFixed(1);
+      const cpu = (10 + Math.random() * 60).toFixed(0);
+      br.innerHTML =
+        'BLOCK ' + blocks.toLocaleString() + '<br>' +
+        'GAS ' + gas + ' gwei<br>' +
+        'PEERS ' + peers + '<br>' +
+        'MEM ' + mem + '% <span class="data-bar"><span class="data-bar-fill" style="width:' + mem + '%"></span></span><br>' +
+        'CPU ' + cpu + '% <span class="data-bar"><span class="data-bar-fill" style="width:' + cpu + '%"></span></span>';
+    }
+
+    updateTL();
+    updateBR();
+    setInterval(updateTL, 1000);
+    setInterval(updateBR, 3000);
+  }
+
   // ═══ CURSOR TRAIL ═══
   function initCursorTrail() {
     const dots = [];
@@ -366,6 +498,10 @@
     initNav();
     initTheme();
     initSmooth();
+    initBinaryRain();
+    initHexStream();
+    initDataParticles();
+    initCornerData();
     initCursorTrail();
     initRunningTerminal();
   });

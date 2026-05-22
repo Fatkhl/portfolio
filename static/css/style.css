@@ -114,7 +114,7 @@ button { cursor: pointer; font-family: inherit; }
 /* ── MATRIX CANVAS ── */
 #matrix {
   position: fixed; inset: 0; z-index: 0;
-  opacity: 0.12; pointer-events: none;
+  opacity: 0.25; pointer-events: none;
 }
 
 /* ── NAV ── */
@@ -761,7 +761,7 @@ body.cream ::selection { background: #b8860b; color: #fff; }
     linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px);
   background-size: 60px 60px;
-  opacity: 0.4;
+  opacity: 0.6;
 }
 
 /* Vignette */
@@ -774,7 +774,7 @@ body.cream ::selection { background: #b8860b; color: #fff; }
 #rterm {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 0;
   height: 100vh; pointer-events: none; overflow: hidden;
-  opacity: 0.04;
+  opacity: 0.08;
 }
 .rterm-line {
   font-family: var(--font-code); font-size: 0.65rem;
@@ -919,6 +919,113 @@ body.cream .hex-shape { animation: none; }
   #grid-overlay, #vignette, #rterm, #scanline, .cursor-dot { display: none !important; }
   .sec-title::before, .sec-title::after { display: none; }
   .hex-shape { animation: none; }
+}
+
+
+
+/* ═══ NUMBER OVERLAYS ═══ */
+
+/* Binary rain - left side */
+#binary-rain {
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 0;
+  width: 200px; pointer-events: none; overflow: hidden;
+  opacity: 0.15;
+}
+.binary-col {
+  position: absolute; top: -100%;
+  font-family: var(--font-code); font-size: 11px;
+  color: var(--green); line-height: 1.4;
+  writing-mode: vertical-lr;
+  animation: binaryFall linear infinite;
+  white-space: nowrap;
+  text-shadow: 0 0 8px var(--green);
+}
+@keyframes binaryFall {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(calc(100vh + 100%)); }
+}
+
+/* Hex stream - right side */
+#hex-stream {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 0;
+  width: 220px; pointer-events: none; overflow: hidden;
+  opacity: 0.12;
+}
+.hex-col {
+  position: absolute; top: -100%;
+  font-family: var(--font-code); font-size: 10px;
+  color: var(--gold); line-height: 1.6;
+  animation: hexFall linear infinite;
+  white-space: nowrap;
+  text-shadow: 0 0 6px rgba(219,180,84,0.5);
+}
+@keyframes hexFall {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(calc(100vh + 100%)); }
+}
+
+/* Floating data particles */
+.data-particle {
+  position: fixed; z-index: 0; pointer-events: none;
+  font-family: var(--font-code); font-size: 9px;
+  color: var(--green); opacity: 0;
+  animation: floatUp linear infinite;
+  text-shadow: 0 0 4px var(--green);
+}
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(100vh) scale(0.8); }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.1; }
+  100% { opacity: 0; transform: translateY(-20px) scale(1); }
+}
+
+/* Corner data readouts */
+.corner-data {
+  position: fixed; z-index: 2; pointer-events: none;
+  font-family: var(--font-code); font-size: 9px;
+  color: var(--green); opacity: 0.25;
+  line-height: 1.8;
+}
+.corner-data.top-left { top: 80px; left: 12px; }
+.corner-data.bottom-right { bottom: 12px; right: 12px; text-align: right; }
+.corner-data .blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Progress bars in corners */
+.data-bar {
+  display: inline-block; height: 3px; width: 60px;
+  background: #111; border-radius: 2px; overflow: hidden;
+  vertical-align: middle; margin-left: 4px;
+}
+.data-bar-fill {
+  height: 100%; background: var(--green);
+  border-radius: 2px;
+  box-shadow: 0 0 4px var(--green);
+}
+
+/* Pulsing hex address */
+.hex-addr {
+  display: inline-block;
+  animation: hexPulse2 2s ease-in-out infinite;
+}
+@keyframes hexPulse2 {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+}
+
+/* Disable in cream */
+body.cream #binary-rain,
+body.cream #hex-stream,
+body.cream .data-particle,
+body.cream .corner-data { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  #binary-rain, #hex-stream, .data-particle, .corner-data { display: none !important; }
 }
 
 /* ── RESPONSIVE ── */
