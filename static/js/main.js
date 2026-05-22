@@ -258,6 +258,98 @@
     });
   }
 
+
+
+  // ═══ CURSOR TRAIL ═══
+  function initCursorTrail() {
+    const dots = [];
+    const count = 8;
+    for (let i = 0; i < count; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'cursor-dot';
+      dot.style.width = (6 - i * 0.5) + 'px';
+      dot.style.height = (6 - i * 0.5) + 'px';
+      dot.style.opacity = (1 - i * 0.12);
+      dot.style.transition = 'transform ' + (0.1 + i * 0.03) + 's ease';
+      document.body.appendChild(dot);
+      dots.push({ el: dot, x: 0, y: 0 });
+    }
+
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      let x = mouseX, y = mouseY;
+      dots.forEach((dot, i) => {
+        const next = dots[i + 1] || dots[dots.length - 1];
+        dot.x += (x - dot.x) * 0.35;
+        dot.y += (y - dot.y) * 0.35;
+        dot.el.style.left = dot.x + 'px';
+        dot.el.style.top = dot.y + 'px';
+        x = dot.x;
+        y = dot.y;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
+  // ═══ RUNNING TERMINAL ═══
+  function initRunningTerminal() {
+    const rterm = document.getElementById('rterm');
+    if (!rterm) return;
+    const cmds = [
+      '$ ssh root@production',
+      '> connecting to 192.168.1.1...',
+      '> auth: OK',
+      '$ deploy --all --force',
+      '> building smart-contracts.sol...',
+      '> compiling... done',
+      '> deploying to mainnet... tx:0x4f2a...',
+      '$ npm run build',
+      '> vite v5.0 building for production...',
+      '> 1247 modules transformed.',
+      '$ git push origin main',
+      '> Enumerating objects: 42, done.',
+      '> Writing objects: 100% (42/42), 8.7 KiB',
+      '$ python3 train_model.py --epochs 100',
+      '> Epoch 1/100: loss=0.342 acc=0.89',
+      '> Epoch 50/100: loss=0.021 acc=0.99',
+      '$ docker compose up -d',
+      '> Container agent-01  Started',
+      '> Container db-redis  Started',
+      '> Container api-gateway  Started',
+      '$ curl -X POST /api/v1/deploy',
+      '> { "status": "deployed", "version": "4.2.0" }',
+      '$ hermes agent --mode=autonomous',
+      '> AER daemon started on port 8080',
+      '> watching /dev/blockchain...',
+      '$ hardhat verify --network mainnet',
+      '> Contract verified on Etherscan ✓',
+      '$ cargo build --release',
+      '> Compiling defi-core v0.3.1',
+      '> Finished release [optimized] in 42s',
+    ];
+
+    function addLine() {
+      const line = document.createElement('div');
+      line.className = 'rterm-line';
+      line.textContent = cmds[Math.floor(Math.random() * cmds.length)];
+      line.style.animationDuration = (25 + Math.random() * 15) + 's';
+      rterm.appendChild(line);
+      if (rterm.children.length > 30) rterm.removeChild(rterm.firstChild);
+    }
+
+    // Initial lines
+    for (let i = 0; i < 15; i++) {
+      setTimeout(addLine, i * 200);
+    }
+    setInterval(addLine, 3000);
+  }
+
   // ═══ INIT ALL ═══
   function initAnimations() {
     initTyping();
@@ -274,6 +366,8 @@
     initNav();
     initTheme();
     initSmooth();
+    initCursorTrail();
+    initRunningTerminal();
   });
 
   // Register Service Worker

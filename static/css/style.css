@@ -107,13 +107,14 @@ button { cursor: pointer; font-family: inherit; }
 /* ── CRT OVERLAY ── */
 #crt {
   position: fixed; inset: 0; z-index: 9998; pointer-events: none;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.015) 2px, rgba(0,255,65,0.015) 4px);
+  animation: crtFlicker 0.1s infinite alternate;
 }
 
 /* ── MATRIX CANVAS ── */
 #matrix {
   position: fixed; inset: 0; z-index: 0;
-  opacity: 0.06; pointer-events: none;
+  opacity: 0.12; pointer-events: none;
 }
 
 /* ── NAV ── */
@@ -748,6 +749,177 @@ body.cream .nav-cta { background: #b8860b; }
 body.cream .nav-cta:hover { background: #d4a017; }
 body.cream .filter-btn.active { color: #b8860b; border-color: #b8860b; }
 body.cream ::selection { background: #b8860b; color: #fff; }
+
+
+
+/* ═══ HACKER ENHANCEMENTS ═══ */
+
+/* Grid overlay */
+#grid-overlay {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+}
+
+/* Vignette */
+#vignette {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+}
+
+/* Running terminal background */
+#rterm {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 0;
+  height: 100vh; pointer-events: none; overflow: hidden;
+  opacity: 0.04;
+}
+.rterm-line {
+  font-family: var(--font-code); font-size: 0.65rem;
+  color: var(--green); white-space: nowrap;
+  animation: rtermScroll 30s linear infinite;
+  padding: 2px 0;
+}
+@keyframes rtermScroll {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-100%); }
+}
+
+/* CRT flicker */
+@keyframes crtFlicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.98; }
+  100% { opacity: 1; }
+}
+
+/* Scanline sweep */
+#scanline {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9997;
+  height: 4px; pointer-events: none;
+  background: linear-gradient(transparent, rgba(0,255,65,0.08), transparent);
+  animation: scanlineSweep 8s linear infinite;
+}
+@keyframes scanlineSweep {
+  0% { top: -4px; }
+  100% { top: 100vh; }
+}
+
+/* Neon glow on gold elements */
+.hero-name .gold {
+  text-shadow: 0 0 10px rgba(219,180,84,0.3), 0 0 30px rgba(219,180,84,0.1);
+}
+.hero-label {
+  text-shadow: 0 0 8px rgba(0,255,65,0.3);
+}
+.nav-logo {
+  text-shadow: 0 0 10px rgba(219,180,84,0.3);
+}
+
+/* Glitch effect on hover for titles */
+.sec-title {
+  position: relative;
+}
+.sec-title::before,
+.sec-title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.sec-title::before {
+  color: var(--green);
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+.sec-title::after {
+  color: var(--gold);
+  clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+}
+.sec-title:hover::before {
+  animation: glitchTop 0.3s;
+  opacity: 0.8;
+}
+.sec-title:hover::after {
+  animation: glitchBottom 0.3s;
+  opacity: 0.8;
+}
+@keyframes glitchTop {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, -2px); }
+  40% { transform: translate(3px, 2px); }
+  60% { transform: translate(-2px, 1px); }
+  80% { transform: translate(2px, -1px); }
+  100% { transform: translate(0); }
+}
+@keyframes glitchBottom {
+  0% { transform: translate(0); }
+  20% { transform: translate(3px, 2px); }
+  40% { transform: translate(-3px, -2px); }
+  60% { transform: translate(2px, -1px); }
+  80% { transform: translate(-2px, 1px); }
+  100% { transform: translate(0); }
+}
+
+/* Cursor trail */
+.cursor-dot {
+  position: fixed; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--green);
+  pointer-events: none; z-index: 9990;
+  opacity: 0; transition: opacity 0.3s;
+  box-shadow: 0 0 6px var(--green);
+  mix-blend-mode: screen;
+}
+body:hover .cursor-dot { opacity: 1; }
+
+/* Hex pulse animation */
+.hex-shape {
+  animation: hexPulse 3s ease-in-out infinite;
+}
+.hex-shape:nth-child(1) { animation-delay: 0s; }
+@keyframes hexPulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(219,180,84,0); }
+  50% { box-shadow: 0 0 20px rgba(219,180,84,0.15); }
+}
+
+/* Green neon border on focus */
+.form-input:focus {
+  box-shadow: 0 0 0 1px var(--gold), 0 0 15px rgba(219,180,84,0.1);
+}
+
+/* Gold glow on CTA */
+.btn-gold {
+  box-shadow: 0 2px 10px rgba(219,180,84,0.2);
+}
+.btn-gold:hover {
+  box-shadow: 0 4px 24px rgba(219,180,84,0.4), 0 0 40px rgba(219,180,84,0.1);
+}
+
+/* Nav CTA glow */
+.nav-cta {
+  box-shadow: 0 2px 10px rgba(219,180,84,0.2);
+}
+.nav-cta:hover {
+  box-shadow: 0 4px 24px rgba(219,180,84,0.4);
+}
+
+/* Disable hacker effects in cream theme */
+body.cream #grid-overlay,
+body.cream #vignette,
+body.cream #rterm,
+body.cream #scanline,
+body.cream .cursor-dot { display: none !important; }
+body.cream .sec-title::before,
+body.cream .sec-title::after { display: none; }
+body.cream .hex-shape { animation: none; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #grid-overlay, #vignette, #rterm, #scanline, .cursor-dot { display: none !important; }
+  .sec-title::before, .sec-title::after { display: none; }
+  .hex-shape { animation: none; }
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
