@@ -167,8 +167,8 @@
     nameEl.style.visibility = 'visible';
 
     let i = 0;
-    const text = '0x';
-    const rest = 'fatkhul';
+    const text = '';
+    const rest = 'Lunarisxyx';
 
     function typeGold() {
       if (i < text.length) {
