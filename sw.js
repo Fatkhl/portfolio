@@ -1,11 +1,11 @@
 const CACHE_NAME = 'fatkhl-portfolio-v4';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/static/css/style.css',
-  '/static/js/main.js',
-  '/static/img/og-image.png',
-  '/manifest.json',
+  '/portfolio/',
+  '/portfolio/index.html',
+  '/portfolio/static/css/style.css',
+  '/portfolio/static/js/main.js',
+  '/portfolio/static/img/og-image.png',
+  '/portfolio/manifest.json',
 ];
 
 self.addEventListener('install', e => {
@@ -28,7 +28,7 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
   // Cache-first for static assets
-  if (e.request.url.includes('/static/')) {
+  if (e.request.url.includes('/portfolio/static/')) {
     e.respondWith(
       caches.match(e.request).then(r => r || fetch(e.request))
     );
