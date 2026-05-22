@@ -915,6 +915,19 @@ body.cream .sec-title::after { display: none; }
 body.cream .hex-shape { animation: none; }
 
 /* Reduced motion */
+
+/* ═══ MOBILE HACKER BOOST ═══ */
+@media (max-width: 768px) {
+  #matrix { opacity: 0.18 !important; }
+  #grid-overlay { opacity: 0.5 !important; }
+  #binary-rain { width: 100px !important; opacity: 0.2 !important; }
+  #hex-stream { width: 100px !important; opacity: 0.15 !important; }
+  #rterm { opacity: 0.06 !important; }
+  .data-particle { opacity: 0.25 !important; }
+  .corner-data { opacity: 0.35 !important; font-size: 8px !important; }
+  .corner-data.top-left { top: 76px !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   #grid-overlay, #vignette, #rterm, #scanline, .cursor-dot { display: none !important; }
   .sec-title::before, .sec-title::after { display: none; }
@@ -1024,6 +1037,19 @@ body.cream #hex-stream,
 body.cream .data-particle,
 body.cream .corner-data { display: none !important; }
 
+
+/* ═══ MOBILE HACKER BOOST ═══ */
+@media (max-width: 768px) {
+  #matrix { opacity: 0.18 !important; }
+  #grid-overlay { opacity: 0.5 !important; }
+  #binary-rain { width: 100px !important; opacity: 0.2 !important; }
+  #hex-stream { width: 100px !important; opacity: 0.15 !important; }
+  #rterm { opacity: 0.06 !important; }
+  .data-particle { opacity: 0.25 !important; }
+  .corner-data { opacity: 0.35 !important; font-size: 8px !important; }
+  .corner-data.top-left { top: 76px !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   #binary-rain, #hex-stream, .data-particle, .corner-data { display: none !important; }
 }
@@ -1078,6 +1104,19 @@ body.cream .corner-data { display: none !important; }
 }
 
 /* ── REDUCED MOTION ── */
+
+/* ═══ MOBILE HACKER BOOST ═══ */
+@media (max-width: 768px) {
+  #matrix { opacity: 0.18 !important; }
+  #grid-overlay { opacity: 0.5 !important; }
+  #binary-rain { width: 100px !important; opacity: 0.2 !important; }
+  #hex-stream { width: 100px !important; opacity: 0.15 !important; }
+  #rterm { opacity: 0.06 !important; }
+  .data-particle { opacity: 0.25 !important; }
+  .corner-data { opacity: 0.35 !important; font-size: 8px !important; }
+  .corner-data.top-left { top: 76px !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
